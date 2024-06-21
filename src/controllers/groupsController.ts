@@ -1,21 +1,16 @@
 import { Request, Response } from 'express'
-import Type, { IType } from '../models/Type'
-import { promisify } from 'util'
-import fs from 'fs'
-import cloudinary from '../config/cloudinary'
+import Group, { IGroup } from '../models/Group'
 
-const unlinkAsync = promisify(fs.unlink);
-
-export const typesController = {
+export const groupsController = {
     getAll: async (req: Request, res: Response) => {
         try {
-            const data = await Type.find()
+            const data = await Group.find()
                 .sort('name')
                 .exec()
             if (!data) {
                 return res.status(404).json({
                     success: false,
-                    message: 'Ha ocurrido un problema al listar del Tipo'
+                    message: 'Ha ocurrido un problema al listar los Grupos'
                 })
             }
             return res.status(200).json({
@@ -25,7 +20,7 @@ export const typesController = {
         } catch (err) {
             return res.status(400).json({
                 success: false,
-                message: 'No se han podido listar el Tipo',
+                message: 'No se han podido listar los Grupos',
                 err
             })
         }
@@ -33,11 +28,11 @@ export const typesController = {
     getOne: async (req: Request, res: Response) => {
         try {
             const { id } = req.params
-            const data: IType = await Type.findById(id)
+            const data: IGroup = await Group.findById(id)
             if (!data) {
                 return res.status(400).json({
                     success: false,
-                    message: 'El Tipo no existe'
+                    message: 'El Grupo no existe'
                 })
             }
             return res.json({
@@ -47,7 +42,7 @@ export const typesController = {
         } catch (err) {
             return res.status(400).json({
                 success: false,
-                message: 'No se ha podido listar el Tipo',
+                message: 'No se ha podido listar el Grupo',
                 err
             })
         }
@@ -55,27 +50,45 @@ export const typesController = {
     add: async (req: Request, res: Response) => {
         try {
             const { name } = req.body
-            const { secure_url , public_id } = await cloudinary.uploader.upload(req.file.path)
-            const newType: IType = new Type({ name, imageUrl: secure_url, publicId: public_id })
-
-            await newType.save().catch(err => {
+            const newGroup: IGroup = new Group({ name })
+            await newGroup.save().catch(err => {
                 return res.status(400).json({
                     success: true,
-                    message: 'Problemas al agregar el Tipo',
+                    message: 'Problemas al agregar la Habilidad',
                     err
                 })
             })
-
-            await unlinkAsync(req.file.path)
-
             return res.json({
                 success: true,
-                data: newType
+                data: newGroup
             })
         }catch(err){
             return res.status(400).json({
+                success: true,
+                message: 'No se ha podido agregar la Habilidad',
+                err
+            })
+        }
+    },
+    update: async (req: Request, res: Response) => {
+        try {
+            const {id} = req.params
+            const {body} = req 
+            const updatedGroup: IGroup = await Group.findByIdAndUpdate(id, body, {new: true})
+            if(!updatedGroup){
+                return res.status(400).json({
+                    success: false,
+                    message: 'El Grupo no existe'
+                })
+            }
+            return res.json({
+                success: true,
+                data: updatedGroup
+            })
+        }catch(err) {
+            return res.status(400).json({
                 success: false,
-                message: 'No se ha podido agregar El Tipo',
+                message: 'No se ha podido actualizar el Grupo',
                 err
             })
         }
@@ -83,23 +96,22 @@ export const typesController = {
     delete: async (req: Request, res: Response) => {
         try {
             const {id} = req.params
-            const removedType: IType = await Type.findByIdAndRemove(id)
-            if(!removedType){
+            const removedGroup: IGroup = await Group.findByIdAndRemove(id)
+            if(!removedGroup){
                 return res.status(400).json({
                     success: false,
-                    message: 'El Tipo no existe'
+                    message: 'El Grupo no existe'
                 })
             }
-            cloudinary.uploader.destroy(removedType.publicId)
             return res.json({
                 success: true,
-                message: 'Tipo eliminado',
-                data: removedType
+                message: 'Grupo eliminado',
+                data: removedGroup
             })
         }catch(err) {
             return res.status(400).json({
                 success: false,
-                message: 'No se ha podido eliminar el Tipo',
+                message: 'No se ha podido eliminar el Grupo',
                 err
             })
         }

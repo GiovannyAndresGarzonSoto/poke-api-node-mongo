@@ -5,7 +5,7 @@ export interface IGroup extends Document{
 }
 
 let validGroups = {
-    values: ['Campo', 'Planta', 'Bicho', 'Dragon', 'Ditto', 'Agua 1', 'Agua 2', 'Agua 3', 'Monstruo', 'Volador', 'Humanoide', 'Hada', 'Amorfo', 'Mineral', 'Desconocido', '-'],
+    values: ['Campo', 'Planta', 'Bicho', 'Dragon', 'Ditto', 'Agua 1', 'Agua 2', 'Agua 3', 'Monstruo', 'Volador', 'Humanoide', 'Hada', 'Amorfo', 'Mineral', 'Desconocido'],
     message: '{VALUE} no es un Grupo Huevo valido'
 }
 

@@ -1,3 +1,5 @@
 export * from './authController'
 export * from './abilitiesController'
 export * from './typesController'
+export * from './classesController'
+export * from './groupsController'
