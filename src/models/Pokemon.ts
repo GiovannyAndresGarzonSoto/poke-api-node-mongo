@@ -17,10 +17,10 @@ export interface IPokemon extends Document {
     type1: Schema.Types.ObjectId
     type2?: Schema.Types.ObjectId
     group1: Schema.Types.ObjectId
-    group2?: Schema.Types.ObjectId
-    ability1: Schema.Types.ObjectId
-    ability2?: Schema.Types.ObjectId
-    ability3?: Schema.Types.ObjectId
+    group2?: Schema.Types.ObjectId | null
+    ability1: Schema.Types.ObjectId 
+    ability2?: Schema.Types.ObjectId | null 
+    ability3?: Schema.Types.ObjectId | null
 }
 
 const pokemonSchema = new Schema({
@@ -94,7 +94,8 @@ const pokemonSchema = new Schema({
     group2: {
         type: Schema.Types.ObjectId,
         ref: 'Groups',
-        required: false
+        required: false,
+        default: null
     },
     ability1: {
         type: Schema.Types.ObjectId,
@@ -104,12 +105,14 @@ const pokemonSchema = new Schema({
     ability2: {
         type: Schema.Types.ObjectId,
         ref: 'Abilities',
-        required: false
+        required: false,
+        default: null
     },
     ability3: {
         type: Schema.Types.ObjectId,
         ref: 'Abilities',
-        required: false
+        required: false,
+        default: null
     }
 }, {
     timestamps: true,
