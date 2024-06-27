@@ -14,6 +14,7 @@ export interface IPokemon extends Document {
     speed: number
     imageUrl: String
     publicId: String
+    gen: String
     type1: Schema.Types.ObjectId
     type2?: Schema.Types.ObjectId
     group1: Schema.Types.ObjectId
@@ -75,6 +76,10 @@ const pokemonSchema = new Schema({
     publicId: {
         type: String,
         required: [true, 'El Id publico es obligatorio']
+    },
+    gen: {
+        type: String,
+        required: [true, 'La Generación es obligatoria']
     },
     type1: {
         type: Schema.Types.ObjectId,

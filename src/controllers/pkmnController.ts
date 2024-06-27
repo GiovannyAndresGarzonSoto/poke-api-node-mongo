@@ -54,9 +54,9 @@ export const pkmnController = {
     },
     add: async (req: Request, res: Response) => {
         try {
-            const { number, name, description, weight, height, hp, attack, defense, spAttack, spDefense, speed, type1, type2, group1, group2, ability1, ability2, ability3 } = req.body
+            const { number, name, description, weight, height, hp, attack, defense, spAttack, spDefense, speed, gen, type1, type2, group1, group2, ability1, ability2, ability3 } = req.body
             const { secure_url, public_id } = await cloudinary.uploader.upload(req.file.path)
-            const newPokemon: IPokemon = new Pokemon({ number, name, description, weight, height, hp, attack, defense, spAttack, spDefense, speed, type1, type2, group1, group2, ability1, ability2, ability3, imageUrl: secure_url, publicId: public_id })
+            const newPokemon: IPokemon = new Pokemon({ number, name, description, weight, height, hp, attack, defense, spAttack, spDefense, speed, gen, type1, type2, group1, group2, ability1, ability2, ability3, imageUrl: secure_url, publicId: public_id })
 
             await newPokemon.save().catch(err => {
                 return res.status(400).json({
