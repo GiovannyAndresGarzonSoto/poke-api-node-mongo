@@ -11,6 +11,9 @@ export const pkmnController = {
         try {
             const data = await Pokemon.find()
                 .sort('name')
+                .populate('type1').populate('type2')
+                .populate('group1').populate('group2')
+                .populate('ability1').populate('ability2').populate('ability3')
                 .exec()
             if (!data) {
                 return res.status(404).json({
@@ -34,6 +37,10 @@ export const pkmnController = {
         try {
             const { id } = req.params
             const data: IPokemon = await Pokemon.findById(id)
+                .populate('type1').populate('type2')
+                .populate('group1').populate('group2')
+                .populate('ability1').populate('ability2').populate('ability3')
+                .exec()
             if (!data) {
                 return res.status(400).json({
                     success: false,
@@ -56,15 +63,10 @@ export const pkmnController = {
         try {
             const { number, name, description, weight, height, hp, attack, defense, spAttack, spDefense, speed, gen, type1, type2, group1, group2, ability1, ability2, ability3 } = req.body
             const { secure_url, public_id } = await cloudinary.uploader.upload(req.file.path)
+
             const newPokemon: IPokemon = new Pokemon({ number, name, description, weight, height, hp, attack, defense, spAttack, spDefense, speed, gen, type1, type2, group1, group2, ability1, ability2, ability3, imageUrl: secure_url, publicId: public_id })
 
-            await newPokemon.save().catch(err => {
-                return res.status(400).json({
-                    success: true,
-                    message: 'Problemas al agregar el Pokemon',
-                    err
-                })
-            })
+            await newPokemon.save()
 
             await unlinkAsync(req.file.path)
 

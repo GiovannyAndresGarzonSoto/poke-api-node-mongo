@@ -83,39 +83,39 @@ const pokemonSchema = new Schema({
     },
     type1: {
         type: Schema.Types.ObjectId,
-        ref: 'Types',
+        ref: 'Type',
         required: [true, 'El Tipo es obligatorio']
     },
     type2: {
         type: Schema.Types.ObjectId,
-        ref: 'Types',
+        ref: 'Type',
         required: false
     },
     group1: {
         type: Schema.Types.ObjectId,
-        ref: 'Groups',
+        ref: 'Group',
         required: [true, 'El Grupo Huevo es obligatorio']
     },
     group2: {
         type: Schema.Types.ObjectId,
-        ref: 'Groups',
+        ref: 'Group',
         required: false,
         default: null
     },
     ability1: {
         type: Schema.Types.ObjectId,
-        ref: 'Abilities',
+        ref: 'Ability',
         required: [true, 'La Habilidad es obligatoria']
     },
     ability2: {
         type: Schema.Types.ObjectId,
-        ref: 'Abilities',
+        ref: 'Ability',
         required: false,
         default: null
     },
     ability3: {
         type: Schema.Types.ObjectId,
-        ref: 'Abilities',
+        ref: 'Ability',
         required: false,
         default: null
     }
